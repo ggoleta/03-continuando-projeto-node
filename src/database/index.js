@@ -1,4 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
+import mongoose from 'mongoose';
 
 import User from '../app/models/User';
 import File from '../app/models/File';
@@ -18,8 +19,14 @@ class Database {
 
     models
       .map(model => model.init(this.connection))
-      .map(model => model.associate && model.associate(this.connection.models))
+      .map(model => model.associate && model.associate(this.connection.models));
+  }
 
+  mongo() {
+    this.mongoConnection = mongoose.connect(
+      'mongodb://localhost:27017/gobarber',
+      { useNewUrlParser: true, useFindAndModify: true }
+    );
   }
 }
 
